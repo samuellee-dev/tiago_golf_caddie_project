@@ -1,0 +1,14 @@
+services:
+  tiago-golf-caddie:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tiago_golf_caddie_lab
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+    environment:
+      - PYTHONUNBUFFERED=1
+      - MUJOCO_GL=osmesa
+    stdin_open: true
+    tty: true
