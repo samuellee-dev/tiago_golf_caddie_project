@@ -26,11 +26,19 @@ tiago_golf_caddie_project/
 │  ├─ mujoco_menagerie/          # 외부 원본, Git 제외
 │  └─ simple_test.xml
 ├─ src/
+│  ├─ controller/
+│  │  └─ base_controller.py
 │  ├─ test_mujoco.py
 │  ├─ test_tiago_load.py
 │  ├─ inspect_tiago_model.py
 │  ├─ test_golf_course_load.py
-│  └─ test_golf_caddie_scene.py
+│  ├─ test_golf_caddie_scene.py
+│  ├─ test_golf_bag_attach.py
+│  ├─ test_golf_bag_mounted.py
+│  ├─ inspect_actuators.py
+│  ├─ inspect_joints.py
+│  ├─ test_base_drive_actuator.py
+│  └─ test_direct_base_controller.py
 ├─ Dockerfile
 ├─ docker-compose.yml
 ├─ requirements.txt
@@ -63,6 +71,11 @@ python src/test_golf_course_load.py
 python src/test_golf_caddie_scene.py
 python src/test_golf_bag_attach.py
 python src/test_golf_bag_mounted.py
+python src/inspect_actuators.py           # Actuator 목록을 확인
+python src/inspect_joints.py              # Joint와 free joint 구조를 확인
+python src/test_base_drive_actuator.py    # 바퀴 velocity actuator를 이용해 TIAGo 베이스의 실제 이동 여부를 확인
+PYTHONPATH=src python src/test_direct_base_controller.py    
+# DirectBaseController를 이용한 목표 좌표 이동 테스트는 src를 Python 모듈 경로에 포함하여 실행
 ```
 
 ## 진행 현황
@@ -73,9 +86,10 @@ python src/test_golf_bag_mounted.py
 - [✅] 5단계: TIAGo Dual과 골프장 환경 통합
 - [✅] 6단계: 골프백 및 랙 모델 추가
 - [✅] 7단계: TIAGo 베이스에 골프백 장착
-- [ ] 8단계: 골퍼 추종 기능 구현
-- [ ] 9단계: 장애물 감지 및 회피
-- [ ] 10단계 이후: 카메라, 객체 인식 및 상태머신 구현
+- [✅] 8단계: TIAGo 베이스 이동 제어 구조 구현
+- [ ] 9단계: 골퍼 target 기본 추종 알고리즘 구현
+- [ ] 10단계: 장애물 감지 및 회피
+- [ ] 11단계: ...
 
 ## GitHub 작업 순서
 
