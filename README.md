@@ -62,6 +62,7 @@ python src/test_tiago_load.py
 python src/test_golf_course_load.py
 python src/test_golf_caddie_scene.py
 python src/test_golf_bag_attach.py
+python src/test_golf_bag_mounted.py
 ```
 
 ## 진행 현황
@@ -71,7 +72,7 @@ python src/test_golf_bag_attach.py
 - [✅] 4단계: 골프장 기본 환경 구성
 - [✅] 5단계: TIAGo Dual과 골프장 환경 통합
 - [✅] 6단계: 골프백 및 랙 모델 추가
-- [ ] 7단계: Python 제어 루프 구현
+- [✅] 7단계: TIAGo 베이스에 골프백 장착
 - [ ] 8단계: 골퍼 추종 기능 구현
 - [ ] 9단계: 장애물 감지 및 회피
 - [ ] 10단계 이후: 카메라, 객체 인식 및 상태머신 구현

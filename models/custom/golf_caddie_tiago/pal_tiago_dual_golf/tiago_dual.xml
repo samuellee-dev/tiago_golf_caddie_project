@@ -213,6 +213,154 @@
           </body>
         </body>
       </body>
+
+      <!-- ===================================================== -->
+      <!-- 7. TIAGo 베이스에 장착된 골프백 랙                  -->
+      <!-- base_link 기준 local coordinate를 사용한다.          -->
+      <!-- ===================================================== -->
+
+      <body
+        name="golf_bag_rack_mount"
+        pos="0 -0.75 0.55"
+      >
+
+        <!-- 랙 가로 프레임 -->
+        <geom
+          name="golf_bag_rack_base"
+          type="box"
+          size="0.35 0.08 0.08"
+          pos="0 0 0"
+          mass="0.8"
+          rgba="0.15 0.15 0.15 1"
+          contype="0"
+          conaffinity="0"
+        />
+
+        <!-- 랙 왼쪽 세로 프레임 -->
+        <geom
+          name="golf_bag_rack_left"
+          type="box"
+          size="0.04 0.06 0.55"
+          pos="-0.28 0 0.45"
+          mass="0.4"
+          rgba="0.15 0.15 0.15 1"
+          contype="0"
+          conaffinity="0"
+        />
+
+        <!-- 랙 오른쪽 세로 프레임 -->
+        <geom
+          name="golf_bag_rack_right"
+          type="box"
+          size="0.04 0.06 0.55"
+          pos="0.28 0 0.45"
+          mass="0.4"
+          rgba="0.15 0.15 0.15 1"
+          contype="0"
+          conaffinity="0"
+        />
+
+        <!-- 골프백 본체 -->
+        <body
+          name="golf_bag_body"
+          pos="0 -0.05 0.55"
+          euler="0.25 0 0"
+        >
+
+          <geom
+            name="golf_bag_body_geom"
+            type="capsule"
+            size="0.16 0.55"
+            mass="4.0"
+            rgba="0.05 0.05 0.08 1"
+            contype="0"
+            conaffinity="0"
+          />
+
+          <!-- 골프백 상단 테두리 -->
+          <geom
+            name="golf_bag_top_trim"
+            type="cylinder"
+            size="0.18 0.03"
+            pos="0 0 0.58"
+            mass="0.2"
+            rgba="0.9 0.9 0.9 1"
+            contype="0"
+            conaffinity="0"
+          />
+
+          <!-- 골프채 1 -->
+          <geom
+            name="golf_club_01_shaft"
+            type="cylinder"
+            size="0.008 0.60"
+            pos="-0.07 0 0.95"
+            mass="0.08"
+            rgba="0.75 0.75 0.75 1"
+            contype="0"
+            conaffinity="0"
+          />
+
+          <geom
+            name="golf_club_01_head"
+            type="box"
+            size="0.08 0.02 0.03"
+            pos="-0.07 0 1.55"
+            mass="0.12"
+            rgba="0.1 0.1 0.1 1"
+            contype="0"
+            conaffinity="0"
+          />
+
+          <!-- 골프채 2 -->
+          <geom
+            name="golf_club_02_shaft"
+            type="cylinder"
+            size="0.008 0.58"
+            pos="0.02 0.02 0.93"
+            mass="0.08"
+            rgba="0.75 0.75 0.75 1"
+            contype="0"
+            conaffinity="0"
+          />
+
+          <geom
+            name="golf_club_02_head"
+            type="box"
+            size="0.07 0.02 0.03"
+            pos="0.02 0.02 1.50"
+            mass="0.12"
+            rgba="0.1 0.1 0.1 1"
+            contype="0"
+            conaffinity="0"
+          />
+
+          <!-- 골프채 3 -->
+          <geom
+            name="golf_club_03_shaft"
+            type="cylinder"
+            size="0.008 0.62"
+            pos="0.08 -0.02 0.96"
+            mass="0.08"
+            rgba="0.75 0.75 0.75 1"
+            contype="0"
+            conaffinity="0"
+          />
+
+          <geom
+            name="golf_club_03_head"
+            type="box"
+            size="0.09 0.02 0.03"
+            pos="0.08 -0.02 1.58"
+            mass="0.12"
+            rgba="0.1 0.1 0.1 1"
+            contype="0"
+            conaffinity="0"
+          />
+
+        </body>
+      </body>
+      
     </body>
   </worldbody>
 
