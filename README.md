@@ -61,13 +61,7 @@ python src/test_mujoco.py
 python src/test_tiago_load.py
 python src/test_golf_course_load.py
 python src/test_golf_caddie_scene.py
-```
-
-5단계 통합 테스트의 정상 결과:
-
-```text
-[SUCCESS] TIAGo + 골프장 통합 scene 로딩 성공
-[SUCCESS] 통합 환경 100 step 실행 성공
+python src/test_golf_bag_attach.py
 ```
 
 ## 진행 현황
@@ -76,7 +70,7 @@ python src/test_golf_caddie_scene.py
 - [✅] 3단계: TIAGo Dual 모델 다운로드 및 로딩
 - [✅] 4단계: 골프장 기본 환경 구성
 - [✅] 5단계: TIAGo Dual과 골프장 환경 통합
-- [ ] 6단계: 골프백 및 랙 모델 추가
+- [✅] 6단계: 골프백 및 랙 모델 추가
 - [ ] 7단계: Python 제어 루프 구현
 - [ ] 8단계: 골퍼 추종 기능 구현
 - [ ] 9단계: 장애물 감지 및 회피
