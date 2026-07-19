@@ -28,6 +28,10 @@ tiago_golf_caddie_project/
 ├─ src/
 │  ├─ controller/
 │  │  └─ base_controller.py
+│  ├─ perception/
+│  │  └─ fake_golfer_tracker.py
+│  ├─ behavior/
+│  │  └─ follow_behavior.py
 │  ├─ test_mujoco.py
 │  ├─ test_tiago_load.py
 │  ├─ inspect_tiago_model.py
@@ -38,7 +42,8 @@ tiago_golf_caddie_project/
 │  ├─ inspect_actuators.py
 │  ├─ inspect_joints.py
 │  ├─ test_base_drive_actuator.py
-│  └─ test_direct_base_controller.py
+│  ├─ test_direct_base_controller.py
+│  └─ test_follow_golfer.py
 ├─ Dockerfile
 ├─ docker-compose.yml
 ├─ requirements.txt
@@ -71,11 +76,16 @@ python src/test_golf_course_load.py
 python src/test_golf_caddie_scene.py
 python src/test_golf_bag_attach.py
 python src/test_golf_bag_mounted.py
-python src/inspect_actuators.py           # Actuator 목록을 확인
-python src/inspect_joints.py              # Joint와 free joint 구조를 확인
-python src/test_base_drive_actuator.py    # 바퀴 velocity actuator를 이용해 TIAGo 베이스의 실제 이동 여부를 확인
-PYTHONPATH=src python src/test_direct_base_controller.py    
-# DirectBaseController를 이용한 목표 좌표 이동 테스트는 src를 Python 모듈 경로에 포함하여 실행
+# Actuator 목록 확인
+python src/inspect_actuators.py
+# Joint와 free joint 구조 확인
+python src/inspect_joints.py
+# 바퀴 velocity actuator를 이용해 TIAGo 베이스의 실제 이동 여부 확인
+python src/test_base_drive_actuator.py
+# DirectBaseController를 이용한 목표 좌표 이동 테스트
+PYTHONPATH=src python src/test_direct_base_controller.py
+# golfer_target을 추종하고 설정된 안전거리 범위에서 정지하는지 확인
+PYTHONPATH=src python src/test_follow_golfer.py
 ```
 
 ## 진행 현황
@@ -87,7 +97,7 @@ PYTHONPATH=src python src/test_direct_base_controller.py
 - [✅] 6단계: 골프백 및 랙 모델 추가
 - [✅] 7단계: TIAGo 베이스에 골프백 장착
 - [✅] 8단계: TIAGo 베이스 이동 제어 구조 구현
-- [ ] 9단계: 골퍼 target 기본 추종 알고리즘 구현
+- [✅] 9단계: 골퍼 target 기본 추종 알고리즘 구현
 - [ ] 10단계: 장애물 감지 및 회피
 - [ ] 11단계: ...
 
