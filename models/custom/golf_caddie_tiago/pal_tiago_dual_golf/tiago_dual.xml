@@ -52,7 +52,7 @@
   </default>
 
   <worldbody>
-    <body name="base_link">
+    <body name="base_link" pos="0 -7 0.1">
       <joint name="reference" type="free"/>
       <inertial pos="-0.00511 -0.00037 0.13715" mass="59.53854" diaginertia="2.326 2.585 3.471"/>
       <geom pos="0 0 0.0762" material="gray75" mesh="base_link"/>

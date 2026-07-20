@@ -23,6 +23,8 @@
       azimuth="150"
       elevation="-20"
       realtime="1"
+      offwidth="1280"
+      offheight="720"
     />
   </visual>
 

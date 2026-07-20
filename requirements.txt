@@ -2,5 +2,6 @@ mujoco==3.6.0
 numpy
 glfw
 imageio
+imageio-ffmpeg
 matplotlib
 opencv-python
