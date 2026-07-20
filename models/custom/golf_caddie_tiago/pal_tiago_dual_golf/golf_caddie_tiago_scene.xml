@@ -234,10 +234,16 @@
       name="golfer_target"
       pos="0 -5 -0.84"
     >
+      <joint
+        name="golfer_target_free_joint"
+        type="free"
+      />
+
       <geom
         name="golfer_target_geom"
         type="cylinder"
         size="0.25 0.15"
+        mass="1.0"
         material="mat_golfer_target"
         contype="0"
         conaffinity="0"
