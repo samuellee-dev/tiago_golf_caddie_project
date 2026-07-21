@@ -51,6 +51,11 @@ tiago_golf_caddie_project/
 │  │  ├─ obstacle_avoidance.py
 │  │  └─ caddie_state_machine.py
 │  │
+│  ├─ vision/
+│  │  ├─ color_detector.py
+│  │  ├─ detect_golf_objects.py
+│  │  └─ image_geometry.py
+│  │
 │  ├─ inspect_tiago_model.py
 │  ├─ inspect_actuators.py
 │  ├─ inspect_joints.py
@@ -73,16 +78,23 @@ tiago_golf_caddie_project/
 │  ├─ test_follow_with_obstacle_avoidance.py
 │  ├─ test_follow_moving_golfer.py
 │  ├─ test_caddie_state_machine_unit.py
-│  └─ test_caddie_state_machine.py
+│  ├─ test_caddie_state_machine.py
+│  ├─ test_color_detection.py
+│  └─ test_image_direction.py
 │
-├─ outputs/                       # 렌더링 결과, Git 제외
-│  └─ camera/
-│     ├─ single_frame.png
-│     ├─ follow_sequence/
-│     │  ├─ frame_0000.png
-│     │  ├─ frame_0100.png
-│     │  └─ ...
-│     └─ follow_sequence.mp4
+├─ outputs/                       # 렌더링 및 비전 결과, Git 제외
+│  ├─ camera/
+│  │  ├─ single_frame.png
+│  │  ├─ follow_sequence/
+│  │  │  ├─ frame_0000.png
+│  │  │  ├─ frame_0100.png
+│  │  │  └─ ...
+│  │  └─ follow_sequence.mp4
+│  │
+│  └─ vision/
+│     ├─ golf_ball_mask.png
+│     ├─ flag_mask.png
+│     └─ detection_result.png
 │
 ├─ Dockerfile
 ├─ docker-compose.yml
@@ -193,9 +205,12 @@ PYTHONPATH=src python src/render_follow_sequence.py
 python src/make_follow_video.py
 # OpenCV로 렌더링 이미지 읽기
 python src/read_frame_with_opencv.py
-```
+# OpenCV 색상 기반 골프공 후보 및 빨간 깃발 검출
+PYTHONPATH=src python src/test_color_detection.py
+# 이미지 내 객체의 LEFT / CENTER / RIGHT 방향 판단
+PYTHONPATH=src python src/test_image_direction.py
 
----
+```
 
 ## 진행 현황
 
@@ -210,6 +225,14 @@ python src/read_frame_with_opencv.py
 - [✅] 10단계: 장애물 감지 및 회피 구현
 - [✅] 11단계: 캐디 로봇 상태머신 구현 및 MuJoCo 통합
 - [✅] 12단계: 카메라 이미지 렌더링, 추종 시퀀스 저장, MP4 생성 및 OpenCV 이미지 읽기
+- [✅] 13단계: OpenCV 기반 골프공·깃발 색상 인식 및 이미지 방향 판단
+- [ ] 14단계: 미진행
+- [ ] 15단계: 미진행
+- [ ] 16단계: 미진행
+- [ ] 17단계: 미진행
+- [ ] 18단계: 미진행
+- [ ] 19단계: 미진행
+- [ ] 20단계: 시뮬레이션 포트폴리오 최종 정리
 
 ---
 
