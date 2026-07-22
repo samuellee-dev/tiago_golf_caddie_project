@@ -21,97 +21,102 @@ TIAGo Dual과 MuJoCo를 기반으로 골프장 환경에서 이동, 골퍼 추�
 
 ```text
 tiago_golf_caddie_project/
-
+│
 ├─ models/
+│  ├─ custom/
+│  │  └─ golf_caddie_tiago/
+│  │     ├─ golf_course_scene.xml
+│  │     └─ pal_tiago_dual_golf/
+│  │        ├─ golf_caddie_tiago_scene.xml
+│  │        ├─ assets/
+│  │        ├─ tiago_dual.xml
+│  │        ├─ tiago_dual_position.xml
+│  │        ├─ tiago_dual_velocity.xml
+│  │        ├─ tiago_dual_motor.xml
+│  │        └─ scene_*.xml
+│  │
+│  ├─ mujoco_menagerie/          # 외부 원본 저장소 (Git 제외)
+│  └─ simple_test.xml
 │
-├─ custom/
-│ └─ golf_caddie_tiago/
-│ ├─ golf_course_scene.xml
-│ └─ pal_tiago_dual_golf/
-│ ├─ golf_caddie_tiago_scene.xml
-│ ├─ assets/
-│ ├─ tiago_dual.xml
-│ ├─ tiago_dual_position.xml
-│ ├─ tiago_dual_velocity.xml
-│ ├─ tiago_dual_motor.xml
-│ └─ scene_*.xml
-│
-├─ mujoco_menagerie/ # 외부 원본 저장소 (Git 제외)
-└─ simple_test.xml
-
 ├─ src/
+│  ├─ controller/
+│  │  ├─ base_controller.py
+│  │  ├─ target_controller.py
+│  │  ├─ heading_controller.py
+│  │  └─ visual_servo_controller.py
+│  │
+│  ├─ perception/
+│  │  ├─ fake_golfer_tracker.py
+│  │  └─ obstacle_detector.py
+│  │
+│  ├─ behavior/
+│  │  ├─ follow_behavior.py
+│  │  ├─ obstacle_avoidance.py
+│  │  └─ caddie_state_machine.py
+│  │
+│  ├─ vision/
+│  │  ├─ color_detector.py
+│  │  ├─ detect_golf_objects.py
+│  │  ├─ image_geometry.py
+│  │  └─ camera_targeting.py
+│  │
+│  ├─ inspect_tiago_model.py
+│  ├─ inspect_actuators.py
+│  ├─ inspect_joints.py
+│  ├─ inspect_cameras.py
+│  │
+│  ├─ render_single_frame.py
+│  ├─ render_robot_front_camera.py
+│  ├─ render_follow_sequence.py
+│  ├─ make_follow_video.py
+│  ├─ read_frame_with_opencv.py
+│  │
+│  ├─ test_mujoco.py
+│  ├─ test_tiago_load.py
+│  ├─ test_golf_course_load.py
+│  ├─ test_golf_caddie_scene.py
+│  ├─ test_golf_bag_attach.py
+│  ├─ test_golf_bag_mounted.py
+│  ├─ test_base_drive_actuator.py
+│  ├─ test_direct_base_controller.py
+│  ├─ test_follow_golfer.py
+│  ├─ test_follow_with_obstacle_avoidance.py
+│  ├─ test_follow_moving_golfer.py
+│  ├─ test_caddie_state_machine_unit.py
+│  ├─ test_caddie_state_machine.py
+│  ├─ test_color_detection.py
+│  ├─ test_image_direction.py
+│  ├─ test_camera_targeting.py
+│  ├─ test_camera_based_heading.py
+│  └─ test_visual_servoing.py
 │
-├─ controller/
-│ ├─ base_controller.py
-│ ├─ target_controller.py
-│ └─ heading_controller.py
+├─ outputs/                      # Git 제외
+│  ├─ camera/
+│  │  ├─ single_frame.png
+│  │  ├─ robot_front_camera.png
+│  │  ├─ follow_sequence/
+│  │  │  ├─ frame_0000.png
+│  │  │  ├─ frame_0100.png
+│  │  │  └─ ...
+│  │  └─ follow_sequence.mp4
+│  │
+│  ├─ camera_heading/
+│  │  ├─ heading_step_000.png
+│  │  ├─ heading_step_001.png
+│  │  ├─ ...
+│  │  └─ heading_step_019.png
+│  │
+│  ├─ visual_servoing/
+│  │  ├─ visual_servo_step_000.png
+│  │  ├─ visual_servo_step_001.png
+│  │  ├─ ...
+│  │  └─ visual_servo_step_178.png
+│  │
+│  └─ vision/
+│     ├─ golf_ball_mask.png
+│     ├─ flag_mask.png
+│     └─ detection_result.png
 │
-├─ perception/
-│ ├─ fake_golfer_tracker.py
-│ └─ obstacle_detector.py
-│
-├─ behavior/
-│ ├─ follow_behavior.py
-│ ├─ obstacle_avoidance.py
-│ └─ caddie_state_machine.py
-│
-├─ vision/
-│ ├─ color_detector.py
-│ ├─ detect_golf_objects.py
-│ ├─ image_geometry.py
-│ └─ camera_targeting.py
-│
-├─ inspect_tiago_model.py
-├─ inspect_actuators.py
-├─ inspect_joints.py
-├─ inspect_cameras.py
-│
-├─ render_single_frame.py
-├─ render_robot_front_camera.py
-├─ render_follow_sequence.py
-├─ make_follow_video.py
-├─ read_frame_with_opencv.py
-│
-├─ test_mujoco.py
-├─ test_tiago_load.py
-├─ test_golf_course_load.py
-├─ test_golf_caddie_scene.py
-├─ test_golf_bag_attach.py
-├─ test_golf_bag_mounted.py
-├─ test_base_drive_actuator.py
-├─ test_direct_base_controller.py
-├─ test_follow_golfer.py
-├─ test_follow_with_obstacle_avoidance.py
-├─ test_follow_moving_golfer.py
-├─ test_caddie_state_machine_unit.py
-├─ test_caddie_state_machine.py
-├─ test_color_detection.py
-├─ test_image_direction.py
-├─ test_camera_targeting.py
-└─ test_camera_based_heading.py
-
-├─ outputs/ # Git 제외
-│
-├─ camera/
-│ ├─ single_frame.png
-│ ├─ robot_front_camera.png
-│ ├─ follow_sequence/
-│ │ ├─ frame_0000.png
-│ │ ├─ frame_0100.png
-│ │ └─ ...
-│ └─ follow_sequence.mp4
-│
-├─ camera_heading/
-│ ├─ heading_step_000.png
-│ ├─ heading_step_001.png
-│ ├─ ...
-│ └─ heading_step_019.png
-│
-└─ vision/
-├─ golf_ball_mask.png
-├─ flag_mask.png
-└─ detection_result.png
-
 ├─ Dockerfile
 ├─ docker-compose.yml
 ├─ requirements.txt
@@ -229,7 +234,8 @@ PYTHONPATH=src python src/test_image_direction.py
 PYTHONPATH=src python src/test_camera_targeting.py
 # 카메라 기반 Heading 제어 통합 테스트
 PYTHONPATH=src python src/test_camera_based_heading.py
-
+# 카메라 기반 Visual Servoing 통합 테스트
+PYTHONPATH=src python src/test_visual_servoing.py
 ```
 
 ## 진행 현황
@@ -247,7 +253,7 @@ PYTHONPATH=src python src/test_camera_based_heading.py
 - [✅] 12단계: 카메라 이미지 렌더링, 추종 시퀀스 저장, MP4 생성 및 OpenCV 이미지 읽기
 - [✅] 13단계: OpenCV 기반 골프공·깃발 색상 인식 및 이미지 방향 판단
 - [✅] 14단계: 전방 카메라 기반 방향 판단 및 Heading 제어 구현
-- [ ] 15단계: 미진행
+- [✅] 15단계: 카메라 기반 target 중앙 정렬, 전진 및 면적 기반 정지 Visual Servoing 구현
 - [ ] 16단계: 미진행
 - [ ] 17단계: 미진행
 - [ ] 18단계: 미진행

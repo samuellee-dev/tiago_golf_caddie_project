@@ -1,3 +1,5 @@
+import math
+
 import mujoco
 import numpy as np
 
@@ -118,4 +120,50 @@ class DirectBaseController:
             data,
             dx,
             dy,
+        )
+
+    def move_forward_by_yaw(
+        self,
+        data: mujoco.MjData,
+        yaw: float,
+        step_size: float,
+        forward_axis: str = "x",
+    ) -> None:
+        """
+        현재 yaw 방향을 기준으로 로봇을 전진시킨다.
+
+        forward_axis:
+        - "x": yaw=0일 때 +x 방향을 전방으로 사용
+        - "y": yaw=0일 때 +y 방향을 전방으로 사용
+
+        MuJoCo 모델마다 로봇의 전방축이 다를 수 있으므로
+        실제 테스트에서는 현재 프로젝트의 전방축을 확인해 사용한다.
+        """
+        if forward_axis == "x":
+            dx = (
+                math.cos(yaw)
+                * step_size
+            )
+            dy = (
+                math.sin(yaw)
+                * step_size
+            )
+        elif forward_axis == "y":
+            dx = (
+                -math.sin(yaw)
+                * step_size
+            )
+            dy = (
+                math.cos(yaw)
+                * step_size
+            )
+        else:
+            raise ValueError(
+                "forward_axis는 'x' 또는 'y'만 가능합니다."
+            )
+
+        self.move_xy(
+            data=data,
+            dx=dx,
+            dy=dy,
         )
