@@ -55,6 +55,8 @@
     <body name="base_link" pos="0 -7 0.1">
       <joint name="reference" type="free"/>
       <inertial pos="-0.00511 -0.00037 0.13715" mass="59.53854" diaginertia="2.326 2.585 3.471"/>
+
+   
       <geom pos="0 0 0.0762" material="gray75" mesh="base_link"/>
       <geom pos="-0.27512 0.18297 0.20864" quat="0 -0.382683 -0.92388 0" material="gray10" mesh="sick_tim551"/>
       <geom pos="0.27512 -0.18297 0.20864" quat="0 -0.92388 0.382683 0" material="gray10" mesh="sick_tim551"/>
@@ -99,6 +101,13 @@
             <inertial pos="0.0558274 0.0609987 1.58542e-05" mass="0.88693"
               diaginertia="0.00554181 0.00436261 0.00347586"/>
             <joint name="head_2_joint" range="-1.0472 0.785398" actuatorfrcrange="-5.197 5.197" damping="0.5"/>
+
+            <camera
+              name="robot_front_camera"
+              pos="0 0.15 -0.15"
+              xyaxes="1 0 0 0 1 0"
+            />
+
             <geom material="white" mesh="head_2"/>
           </body>
         </body>

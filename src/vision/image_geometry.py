@@ -30,3 +30,25 @@ def estimate_horizontal_direction(
         return "RIGHT"
 
     return "CENTER"
+
+def normalize_center_error(
+    object_center_x: int,
+    image_width: int,
+) -> float:
+    """
+    객체 중심 x좌표를
+    화면 중심 기준 [-1, 1] 범위로 정규화한다.
+
+    Returns:
+        -1.0 : 화면 가장 왼쪽
+         0.0 : 화면 중앙
+         1.0 : 화면 가장 오른쪽
+    """
+
+    image_center_x = image_width / 2.0
+
+    error_x = object_center_x - image_center_x
+
+    normalized_error = error_x / image_center_x
+
+    return float(normalized_error)
