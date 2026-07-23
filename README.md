@@ -88,7 +88,8 @@ tiago_golf_caddie_project/
 │  ├─ test_image_direction.py
 │  ├─ test_camera_targeting.py
 │  ├─ test_camera_based_heading.py
-│  └─ test_visual_servoing.py
+│  ├─ test_visual_servoing.py
+│  └─ test_state_machine_with_vision.py
 │
 ├─ outputs/                      # Git 제외
 │  ├─ camera/
@@ -111,6 +112,12 @@ tiago_golf_caddie_project/
 │  │  ├─ visual_servo_step_001.png
 │  │  ├─ ...
 │  │  └─ visual_servo_step_178.png
+│  │
+│  ├─ state_machine_vision/
+│  │  ├─ vision_sm_0000.png
+│  │  ├─ vision_sm_0005.png
+│  │  ├─ ...
+│  │  └─ state_machine_vision_log.csv
 │  │
 │  └─ vision/
 │     ├─ golf_ball_mask.png
@@ -236,6 +243,8 @@ PYTHONPATH=src python src/test_camera_targeting.py
 PYTHONPATH=src python src/test_camera_based_heading.py
 # 카메라 기반 Visual Servoing 통합 테스트
 PYTHONPATH=src python src/test_visual_servoing.py
+# 카메라 기반 Visual Servoing + 상태머신 통합 테스트
+PYTHONPATH=src python src/test_state_machine_with_vision.py
 ```
 
 ## 진행 현황
@@ -254,7 +263,7 @@ PYTHONPATH=src python src/test_visual_servoing.py
 - [✅] 13단계: OpenCV 기반 골프공·깃발 색상 인식 및 이미지 방향 판단
 - [✅] 14단계: 전방 카메라 기반 방향 판단 및 Heading 제어 구현
 - [✅] 15단계: 카메라 기반 target 중앙 정렬, 전진 및 면적 기반 정지 Visual Servoing 구현
-- [ ] 16단계: 미진행
+- [✅] 16단계: 카메라 기반 Visual Servoing과 캐디 상태머신 통합
 - [ ] 17단계: 미진행
 - [ ] 18단계: 미진행
 - [ ] 19단계: 미진행

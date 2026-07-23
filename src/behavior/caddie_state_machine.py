@@ -20,6 +20,8 @@ class CaddieState(Enum):
     STOP = auto()
     TOO_CLOSE = auto()
     RETURN_HOME = auto()
+    SEARCH_TARGET = auto()
+    VISION_TRACK = auto()
     EMERGENCY_STOP = auto()
 
 
@@ -38,10 +40,10 @@ class CaddieContext:
     emergency_stop: bool
 
     robot_xy: np.ndarray
-    golfer_xy: np.ndarray
+    golfer_xy: np.ndarray | None
     home_xy: np.ndarray
 
-    distance_to_golfer: float
+    distance_to_golfer: float | None
 
     nearest_obstacle_name: str | None
     nearest_obstacle_distance: float
@@ -52,6 +54,13 @@ class CaddieContext:
     safety_radius: float
 
     home_tolerance: float = 0.2
+
+    start_vision_tracking: bool = False
+    target_detected: bool = False
+    target_direction: str = "NOT_FOUND"
+    target_center_error_normalized: float = 0.0
+    target_area: float | None = None
+    visual_command_action: str = "STOP"
 
 
 class CaddieStateMachine:
@@ -114,7 +123,17 @@ class CaddieStateMachine:
             return self.state
 
         # --------------------------------------------------------
-        # 3. 현재 상태별 전환 규칙
+        # 3. 장애물 회피
+        # --------------------------------------------------------
+        if self._is_obstacle_too_close(context):
+            self.transition_to(
+                CaddieState.AVOID
+            )
+
+            return self.state
+
+        # --------------------------------------------------------
+        # 4. 현재 상태별 전환 규칙
         # --------------------------------------------------------
         if self.state == CaddieState.IDLE:
             return self._update_idle(context)
@@ -133,6 +152,12 @@ class CaddieStateMachine:
 
         if self.state == CaddieState.RETURN_HOME:
             return self._update_return_home(context)
+
+        if self.state == CaddieState.SEARCH_TARGET:
+            return self._update_search_target(context)
+
+        if self.state == CaddieState.VISION_TRACK:
+            return self._update_vision_track(context)
 
         if self.state == CaddieState.EMERGENCY_STOP:
             return self.state
@@ -186,10 +211,68 @@ class CaddieStateMachine:
         IDLE 상태 전환 규칙.
         """
 
+        if context.start_vision_tracking:
+            self.transition_to(
+                CaddieState.SEARCH_TARGET
+            )
+
+            return self.state
+
         if context.start_follow:
             self.transition_to(
                 CaddieState.FOLLOW
             )
+
+            return self.state
+
+        return self.state
+
+    def _update_search_target(
+        self,
+        context: CaddieContext,
+    ) -> CaddieState:
+        """
+        SEARCH_TARGET 상태 전환 규칙.
+        """
+
+        if context.target_detected:
+            self.transition_to(
+                CaddieState.VISION_TRACK
+            )
+
+            return self.state
+
+        self.transition_to(
+            CaddieState.SEARCH_TARGET
+        )
+
+        return self.state
+
+    def _update_vision_track(
+        self,
+        context: CaddieContext,
+    ) -> CaddieState:
+        """
+        VISION_TRACK 상태 전환 규칙.
+        """
+
+        if not context.target_detected:
+            self.transition_to(
+                CaddieState.SEARCH_TARGET
+            )
+
+            return self.state
+
+        if context.visual_command_action == "STOP":
+            self.transition_to(
+                CaddieState.STOP
+            )
+
+            return self.state
+
+        self.transition_to(
+            CaddieState.VISION_TRACK
+        )
 
         return self.state
 
@@ -201,9 +284,9 @@ class CaddieStateMachine:
         FOLLOW 상태 전환 규칙.
         """
 
-        if self._is_obstacle_too_close(context):
+        if context.distance_to_golfer is None:
             self.transition_to(
-                CaddieState.AVOID
+                CaddieState.SEARCH_TARGET
             )
 
             return self.state
@@ -249,6 +332,13 @@ class CaddieStateMachine:
 
             return self.state
 
+        if context.start_vision_tracking:
+            self.transition_to(
+                CaddieState.SEARCH_TARGET
+            )
+
+            return self.state
+
         self.transition_to(
             CaddieState.FOLLOW
         )
@@ -263,9 +353,21 @@ class CaddieStateMachine:
         STOP 상태 전환 규칙.
         """
 
-        if self._is_obstacle_too_close(context):
+        if context.start_vision_tracking:
+            if context.target_detected:
+                self.transition_to(
+                    CaddieState.VISION_TRACK
+                )
+            else:
+                self.transition_to(
+                    CaddieState.SEARCH_TARGET
+                )
+
+            return self.state
+
+        if context.distance_to_golfer is None:
             self.transition_to(
-                CaddieState.AVOID
+                CaddieState.SEARCH_TARGET
             )
 
             return self.state
@@ -304,9 +406,9 @@ class CaddieStateMachine:
         TOO_CLOSE 상태 전환 규칙.
         """
 
-        if self._is_obstacle_too_close(context):
+        if context.distance_to_golfer is None:
             self.transition_to(
-                CaddieState.AVOID
+                CaddieState.SEARCH_TARGET
             )
 
             return self.state
