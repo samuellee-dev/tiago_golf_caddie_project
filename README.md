@@ -39,6 +39,8 @@ tiago_golf_caddie_project/
 │  └─ simple_test.xml
 │
 ├─ src/
+│  ├─ main.py                    # 최종 통합 데모 실행 파일
+│  │
 │  ├─ controller/
 │  │  ├─ base_controller.py
 │  │  ├─ target_controller.py
@@ -72,24 +74,33 @@ tiago_golf_caddie_project/
 │  ├─ read_frame_with_opencv.py
 │  │
 │  ├─ test_mujoco.py
-│  ├─ test_tiago_load.py
-│  ├─ test_golf_course_load.py
 │  ├─ test_golf_caddie_scene.py
 │  ├─ test_golf_bag_attach.py
-│  ├─ test_golf_bag_mounted.py
 │  ├─ test_base_drive_actuator.py
 │  ├─ test_direct_base_controller.py
-│  ├─ test_follow_golfer.py
-│  ├─ test_follow_with_obstacle_avoidance.py
-│  ├─ test_follow_moving_golfer.py
 │  ├─ test_caddie_state_machine_unit.py
-│  ├─ test_caddie_state_machine.py
 │  ├─ test_color_detection.py
-│  ├─ test_image_direction.py
+│  └─ test_image_direction.py
+│
+├─ tests/
+│  ├─ test_tiago_load.py
+│  ├─ test_golf_course_load.py
+│  ├─ test_golf_bag_mounted.py
+│  ├─ test_follow_golfer.py
+│  ├─ test_follow_moving_golfer.py
+│  ├─ test_follow_with_obstacle_avoidance.py
+│  ├─ test_caddie_state_machine.py
 │  ├─ test_camera_targeting.py
 │  ├─ test_camera_based_heading.py
 │  ├─ test_visual_servoing.py
 │  └─ test_state_machine_with_vision.py
+│
+├─ scripts/
+│  ├─ 01_build.sh
+│  ├─ 02_run_container.sh
+│  ├─ 03_test_mujoco.sh
+│  ├─ 04_render_scene.sh
+│  └─ 05_run_final_demo.sh
 │
 ├─ outputs/                      # Git 제외
 │  ├─ camera/
@@ -118,6 +129,11 @@ tiago_golf_caddie_project/
 │  │  ├─ vision_sm_0005.png
 │  │  ├─ ...
 │  │  └─ state_machine_vision_log.csv
+│  │
+│  ├─ final_demo/
+│  │  ├─ final_demo_0000.png
+│  │  ├─ final_demo_0005.png
+│  │  └─ ...
 │  │
 │  └─ vision/
 │     ├─ golf_ball_mask.png
@@ -245,6 +261,8 @@ PYTHONPATH=src python src/test_camera_based_heading.py
 PYTHONPATH=src python src/test_visual_servoing.py
 # 카메라 기반 Visual Servoing + 상태머신 통합 테스트
 PYTHONPATH=src python src/test_state_machine_with_vision.py
+# 17단계 최종 통합 데모
+python src/main.py
 ```
 
 ## 진행 현황
@@ -264,7 +282,7 @@ PYTHONPATH=src python src/test_state_machine_with_vision.py
 - [✅] 14단계: 전방 카메라 기반 방향 판단 및 Heading 제어 구현
 - [✅] 15단계: 카메라 기반 target 중앙 정렬, 전진 및 면적 기반 정지 Visual Servoing 구현
 - [✅] 16단계: 카메라 기반 Visual Servoing과 캐디 상태머신 통합
-- [ ] 17단계: 미진행
+- [✅] 17단계: 프로젝트 구조 정리, 테스트 분리, 실행 스크립트 및 최종 데모 구성
 - [ ] 18단계: 미진행
 - [ ] 19단계: 미진행
 - [ ] 20단계: 시뮬레이션 포트폴리오 최종 정리
