@@ -169,101 +169,107 @@ docker compose exec tiago-golf-caddie bash
 Docker 컨테이너 안(`/workspace`)에서 실행합니다.
 
 ```bash
-# MuJoCo 설치 확인
+# <기본 환경 및 모델 확인>
+# MuJoCo 기본 실행 확인
 python src/test_mujoco.py
-# TIAGo Dual 모델 로딩
-python src/test_tiago_load.py
+# 원본 TIAGo Dual 모델 로딩
+python tests/test_tiago_load.py
 # 골프장 환경 로딩
-python src/test_golf_course_load.py
+python tests/test_golf_course_load.py
 # TIAGo + 골프장 통합 Scene 로딩
 python src/test_golf_caddie_scene.py
-# 골프백 장착 확인
+# 골프백 부착 구조 확인
 python src/test_golf_bag_attach.py
-# 골프백 장착 Scene 확인
-python src/test_golf_bag_mounted.py
+# 골프백 장착 안정성 확인
+python tests/test_golf_bag_mounted.py
+
+# <TIAGo 구조 및 이동 제어 확인>
 # Actuator 목록 확인
 python src/inspect_actuators.py
 # Joint와 free joint 구조 확인
 python src/inspect_joints.py
-# 바퀴 velocity actuator를 이용한 베이스 이동 테스트
+# 바퀴 velocity actuator 이동 테스트
 python src/test_base_drive_actuator.py
 # DirectBaseController 목표 좌표 이동 테스트
 PYTHONPATH=src python src/test_direct_base_controller.py
-# golfer_target 기본 추종 테스트
-PYTHONPATH=src python src/test_follow_golfer.py
-# 장애물 감지 확인
-PYTHONPATH=src python - <<'PY'
-from pathlib import Path
 
-import mujoco
+# <골퍼 추종 및 장애물 회피 확인>
+# golfer_target 기본 추종
+PYTHONPATH=src python tests/test_follow_golfer.py
+# 움직이는 golfer_target 추종
+PYTHONPATH=src python tests/test_follow_moving_golfer.py
+# 골퍼 추종 + 장애물 회피
+PYTHONPATH=src python tests/test_follow_with_obstacle_avoidance.py
 
-from perception.obstacle_detector import (
-    SimpleObstacleDetector,
-)
-
-xml_path = Path(
-    "models/custom/golf_caddie_tiago/"
-    "pal_tiago_dual_golf/"
-    "golf_caddie_tiago_scene.xml"
-)
-
-model = mujoco.MjModel.from_xml_path(str(xml_path))
-data = mujoco.MjData(model)
-
-mujoco.mj_forward(model, data)
-
-detector = SimpleObstacleDetector(
-    model=model,
-    obstacle_body_names=[
-        "obstacle_tree_01",
-        "obstacle_tree_02",
-        "obstacle_marker_box",
-    ],
-)
-
-robot_xy = [0.0, 0.0]
-
-nearest = detector.find_nearest_obstacle(
-    data=data,
-    robot_xy=robot_xy,
-)
-
-print(nearest)
-PY
-
-# 골퍼 추종 + 장애물 회피 통합 테스트
-PYTHONPATH=src python src/test_follow_with_obstacle_avoidance.py
-# 움직이는 golfer_target 추종 테스트
-PYTHONPATH=src python src/test_follow_moving_golfer.py
+# <상태머신 확인>
 # 상태머신 단독 테스트
 PYTHONPATH=src python src/test_caddie_state_machine_unit.py
 # 상태머신 MuJoCo 통합 테스트
-PYTHONPATH=src python src/test_caddie_state_machine.py
+PYTHONPATH=src python tests/test_caddie_state_machine.py
+
+# <카메라 및 렌더링 확인>
 # 카메라 목록 확인
 python src/inspect_cameras.py
 # 단일 이미지 렌더링
 python src/render_single_frame.py
+# Robot Front Camera 렌더링
+python src/render_robot_front_camera.py
 # 움직이는 골퍼 추종 시퀀스 이미지 생성
 PYTHONPATH=src python src/render_follow_sequence.py
-# 저장된 프레임으로 MP4 동영상 생성
+# 저장된 프레임으로 MP4 생성
 python src/make_follow_video.py
 # OpenCV로 렌더링 이미지 읽기
 python src/read_frame_with_opencv.py
-# OpenCV 색상 기반 골프공 후보 및 빨간 깃발 검출
+
+# <OpenCV 및 Camera Targeting 확인>
+# 색상 기반 골프공 후보 및 빨간 깃발 검출
 PYTHONPATH=src python src/test_color_detection.py
-# 이미지 내 객체의 LEFT / CENTER / RIGHT 방향 판단
+# 이미지 내 LEFT / CENTER / RIGHT 방향 판단
 PYTHONPATH=src python src/test_image_direction.py
 # CameraTargeting 단독 테스트
-PYTHONPATH=src python src/test_camera_targeting.py
-# 카메라 기반 Heading 제어 통합 테스트
-PYTHONPATH=src python src/test_camera_based_heading.py
-# 카메라 기반 Visual Servoing 통합 테스트
-PYTHONPATH=src python src/test_visual_servoing.py
-# 카메라 기반 Visual Servoing + 상태머신 통합 테스트
-PYTHONPATH=src python src/test_state_machine_with_vision.py
-# 17단계 최종 통합 데모
+PYTHONPATH=src python tests/test_camera_targeting.py
+
+# <Heading 및 Visual Servoing 확인>
+# 카메라 기반 Heading 제어
+PYTHONPATH=src python tests/test_camera_based_heading.py
+# 카메라 기반 Visual Servoing
+PYTHONPATH=src python tests/test_visual_servoing.py
+# Visual Servoing + 상태머신 통합
+PYTHONPATH=src python tests/test_state_machine_with_vision.py
+
+# <최종 통합 데모>
+# 최종 통합 데모 실행
 python src/main.py
+
 ```
+
+## 디버깅 체크리스트
+
+Docker Compose
+↓
+MuJoCo import
+↓
+원본 TIAGo 모델 로딩
+↓
+커스텀 통합 Scene 로딩
+↓
+골프백 장착 안정성
+↓
+카메라 목록
+↓
+단일 프레임 렌더링
+↓
+OpenCV 색상 검출
+↓
+CameraTargeting
+↓
+Camera Based Heading
+↓
+Visual Servoing
+↓
+Vision 통합 상태머신
+↓
+src/main.py 최종 데모
 
 ## 진행 현황
 
@@ -283,7 +289,7 @@ python src/main.py
 - [✅] 15단계: 카메라 기반 target 중앙 정렬, 전진 및 면적 기반 정지 Visual Servoing 구현
 - [✅] 16단계: 카메라 기반 Visual Servoing과 캐디 상태머신 통합
 - [✅] 17단계: 프로젝트 구조 정리, 테스트 분리, 실행 스크립트 및 최종 데모 구성
-- [ ] 18단계: 미진행
+- [✅] 18단계: 실무 디버깅 체크리스트 및 전체 기능 단계별 검증
 - [ ] 19단계: 미진행
 - [ ] 20단계: 시뮬레이션 포트폴리오 최종 정리
 
