@@ -230,22 +230,22 @@ docker compose exec tiago-golf-caddie bash
 
 # 📈 Development Journey
 
-This project was developed incrementally through functional milestones rather than implementing all features at once.
+본 프로젝트는 모든 기능을 한 번에 구현하는 방식이 아니라, 기능 단위로 개발 단계를 나누어 점진적으로 확장하며 구현하였습니다.
 
-Each stage was independently verified before proceeding to the next stage, ensuring stable integration throughout the development process.
+각 단계는 충분한 테스트와 검증을 완료한 후 다음 단계로 진행하여 안정적으로 시스템을 통합하였습니다.
 
-| Stage | Description |
-|--------|-------------|
-| **Stage 1** | Development Environment (Docker, MuJoCo, TIAGo Dual) |
-| **Stage 2** | Custom Golf Course & Golf Bag Integration |
-| **Stage 3** | Mobile Robot Motion Control |
-| **Stage 4** | Golfer Following & Obstacle Avoidance |
-| **Stage 5** | Camera Rendering & OpenCV Vision |
-| **Stage 6** | Heading Controller & Visual Servoing |
-| **Stage 7** | Vision-based State Machine Integration |
-| **Stage 8** | Project Refinement & Portfolio Documentation |
+| 단계 | 주요 개발 내용 |
+|------|----------------|
+| **Stage 1** | 개발 환경 구축 (Docker, MuJoCo, TIAGo Dual) |
+| **Stage 2** | 골프장 환경 및 골프백 통합 |
+| **Stage 3** | 모바일 로봇 이동 제어 구현 |
+| **Stage 4** | 골퍼 추종 및 장애물 회피 |
+| **Stage 5** | 카메라 렌더링 및 OpenCV 비전 |
+| **Stage 6** | Heading Controller 및 Visual Servoing |
+| **Stage 7** | Vision 기반 상태머신 통합 |
+| **Stage 8** | 프로젝트 구조 정리 및 포트폴리오 문서화 |
 
-The project was completed by continuously integrating, testing, and validating each subsystem before moving on to the next development stage.
+프로젝트는 각 기능을 순차적으로 구현하고, 단계별 테스트와 검증을 반복하면서 최종적으로 하나의 자율 골프 캐디 시뮬레이션 시스템으로 완성하였습니다.
 
 ---
 
@@ -320,33 +320,36 @@ Planned Extensions
 
 # 📄 License
 
-This project was developed for educational purposes and as a robotics portfolio.
+본 프로젝트는 교육 및 학습을 목적으로 개발한 **로보틱스 시뮬레이션 포트폴리오**입니다.
 
-External assets and models follow the licenses of their respective projects.
+프로젝트에서 사용된 외부 모델 및 에셋은 각 프로젝트의 라이선스를 따릅니다.
 
 ---
 
 # 📝 Project Summary
 
-This project demonstrates the implementation of an **Autonomous Golf Caddie Robot** using the **PAL Robotics TIAGo Dual** model in a **MuJoCo simulation environment**.
+본 프로젝트는 **PAL Robotics TIAGo Dual** 모델을 기반으로 **MuJoCo 시뮬레이션 환경**에서 자율 골프 캐디 로봇을 구현한 로보틱스 시뮬레이션 프로젝트입니다.
 
-The project integrates multiple robotics software components into a single autonomous system, including:
+프로젝트에서는 다음과 같은 핵심 로보틱스 소프트웨어 기능을 하나의 시스템으로 통합하여 구현하였습니다.
 
-- Mobile Robot Control
-- Computer Vision
-- Autonomous Navigation
-- Behavior Planning
-- State Machine
+- 모바일 로봇 이동 제어
+- 컴퓨터 비전(OpenCV)
+- 골퍼 추종 및 자율 주행
+- 장애물 감지 및 회피
+- 행동 계획(Behavior Planning)
+- 상태머신(State Machine)
+- Camera Targeting
+- Heading Controller
 - Visual Servoing
 
-The overall software architecture follows a **Perception → Behavior → Controller** pipeline, a common design pattern used in modern mobile robotics systems.
+전체 소프트웨어는 **Perception → Behavior → Controller** 구조를 기반으로 설계하였으며, 모바일 서비스 로봇에서 널리 사용되는 계층형 소프트웨어 구조를 참고하여 구현하였습니다.
 
-Although this project focuses on simulation, the architecture has been designed to be extensible toward ROS2, Gazebo, and real robot deployment in future work.
+현재 프로젝트는 **MuJoCo 기반 시뮬레이션**을 목표로 완성하였으며, 향후에는 동일한 구조를 기반으로 **ROS2**, **Gazebo**, 그리고 **실제 TIAGo 로봇** 환경으로 확장할 수 있도록 설계하였습니다.
 
 ---
 
 <p align="center">
 
-⭐ If you found this project interesting, consider giving it a star on GitHub.
+읽어주셔서 감사합니다.
 
 </p>
