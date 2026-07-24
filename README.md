@@ -1,326 +1,352 @@
 # ⛳ TIAGo Golf Caddie Project
 
-TIAGo Dual과 MuJoCo를 기반으로 골프장 환경에서 이동, 골퍼 추종, 장애물 회피, 골프백 운반 및 카메라 이미지 렌더링 기능을 구현하는 교육용 로봇 시뮬레이션 프로젝트입니다.
+<p align="center">
+    <img src="docs/images/tiago_golf_caddie_banner.png" width="100%">
+</p>
 
-현재 프로젝트는 실제 로봇을 사용하지 않고 MuJoCo 시뮬레이션 범위에서 진행합니다.
+<h2 align="center">
+Autonomous Golf Caddie Robot Simulation
+</h2>
 
-## 개발 환경
+<p align="center">
+MuJoCo • TIAGo Dual • OpenCV • Python
+</p>
 
-| 항목 | 내용 |
-|---|---|
-| OS | Windows |
-| 실행 환경 | Docker Desktop / Docker Compose |
-| Python | 3.11 |
-| MuJoCo | 3.6.0 |
-| 기반 로봇 | PAL Robotics TIAGo Dual |
-| 렌더링 방식 | MuJoCo Offscreen Rendering |
-| 이미지 처리 | ImageIO / OpenCV |
-| 동영상 생성 | ImageIO / imageio-ffmpeg |
+<p align="center">
 
-## 프로젝트 구조
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![MuJoCo](https://img.shields.io/badge/MuJoCo-3.6.0-orange)
+![OpenCV](https://img.shields.io/badge/OpenCV-4.x-green)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED)
+![Portfolio](https://img.shields.io/badge/Portfolio-Robotics-success)
+
+</p>
+
+---
+
+# 📌 Overview
+
+**TIAGo Golf Caddie Project**는 PAL Robotics의 **TIAGo Dual** 모델을 기반으로 **MuJoCo 시뮬레이션 환경**에서 자율 골프 캐디 로봇을 구현한 Robotics Portfolio Project입니다.
+
+본 프로젝트는 실제 TIAGo 로봇을 사용하지 않고 **MuJoCo 기반 시뮬레이션**만을 대상으로 개발하였습니다.
+
+모바일 서비스 로봇에서 사용되는 **Perception → Behavior → Controller** 구조를 기반으로 다음 기능들을 하나의 시스템으로 통합하였습니다.
+
+- Autonomous Golfer Following
+- Obstacle Avoidance
+- Camera Rendering
+- OpenCV Vision
+- Camera Targeting
+- Heading Controller
+- Visual Servoing
+- Vision-based State Machine
+- Final Autonomous Demo
+
+---
+
+# ✨ Key Features
+
+## 🤖 Robot
+
+- TIAGo Dual Integration
+- Mobile Robot Base
+- Golf Bag Rack
+- Golf Bag Mount
+
+### 🚶 Navigation
+
+- Golfer Following
+- Safe Following Distance
+- Obstacle Avoidance
+- Target Controller
+
+### 👀 Computer Vision
+
+- Robot Front Camera
+- MuJoCo Offscreen Rendering
+- OpenCV Color Detection
+- Golf Ball Detection
+- Flag Detection
+- Camera Targeting
+
+### 🧠 Robot Intelligence
+
+- Heading Controller
+- Visual Servo Controller
+- State Machine
+- Vision State Machine
+
+### 🚀 Integration
+
+- Autonomous Demo
+- Vision + Motion Integration
+- Complete Simulation Pipeline
+
+---
+
+# 🏗 System Architecture
+
+```text
+                 MuJoCo Simulation
+
+                         │
+
+     ┌───────────────────┴───────────────────┐
+
+     ▼                                       ▼
+
+TIAGo Dual                          Golf Environment
+
+                         │
+
+                         ▼
+
+====================================================
+
+               Perception Layer
+
+====================================================
+
+FakeGolferTracker
+
+ObstacleDetector
+
+OpenCV Detection
+
+CameraTargeting
+
+                         │
+
+                         ▼
+
+====================================================
+
+                Behavior Layer
+
+====================================================
+
+FollowBehavior
+
+ObstacleAvoidance
+
+CaddieStateMachine
+
+                         │
+
+                         ▼
+
+====================================================
+
+               Controller Layer
+
+====================================================
+
+DirectBaseController
+
+HeadingController
+
+VisualServoController
+
+                         │
+
+                         ▼
+
+====================================================
+
+         Autonomous Golf Caddie Robot
+```
+
+본 프로젝트는 **Perception → Behavior → Controller** 계층 구조를 기반으로 구현하였으며, 실제 모바일 서비스 로봇 소프트웨어의 구조를 참고하여 설계하였습니다.
+
+---
+
+# 🛠 Tech Stack
+
+| Category | Technology |
+|-----------|------------|
+| Robot | PAL Robotics TIAGo Dual |
+| Simulation | MuJoCo 3.6.0 |
+| Programming | Python 3.11 |
+| Vision | OpenCV |
+| Rendering | MuJoCo Offscreen Rendering |
+| Container | Docker / Docker Compose |
+| Version Control | Git / GitHub |
+| Platform | Windows |
+
+---
+
+# 📁 Project Structure
 
 ```text
 tiago_golf_caddie_project/
+
+├── docs/
+│   └── images/
 │
-├─ models/
-│  ├─ custom/
-│  │  └─ golf_caddie_tiago/
-│  │     ├─ golf_course_scene.xml
-│  │     └─ pal_tiago_dual_golf/
-│  │        ├─ golf_caddie_tiago_scene.xml
-│  │        ├─ assets/
-│  │        ├─ tiago_dual.xml
-│  │        ├─ tiago_dual_position.xml
-│  │        ├─ tiago_dual_velocity.xml
-│  │        ├─ tiago_dual_motor.xml
-│  │        └─ scene_*.xml
-│  │
-│  ├─ mujoco_menagerie/          # 외부 원본 저장소 (Git 제외)
-│  └─ simple_test.xml
+├── models/
+│   ├── custom/
+│   └── mujoco_menagerie/
 │
-├─ src/
-│  ├─ main.py                    # 최종 통합 데모 실행 파일
-│  │
-│  ├─ controller/
-│  │  ├─ base_controller.py
-│  │  ├─ target_controller.py
-│  │  ├─ heading_controller.py
-│  │  └─ visual_servo_controller.py
-│  │
-│  ├─ perception/
-│  │  ├─ fake_golfer_tracker.py
-│  │  └─ obstacle_detector.py
-│  │
-│  ├─ behavior/
-│  │  ├─ follow_behavior.py
-│  │  ├─ obstacle_avoidance.py
-│  │  └─ caddie_state_machine.py
-│  │
-│  ├─ vision/
-│  │  ├─ color_detector.py
-│  │  ├─ detect_golf_objects.py
-│  │  ├─ image_geometry.py
-│  │  └─ camera_targeting.py
-│  │
-│  ├─ inspect_tiago_model.py
-│  ├─ inspect_actuators.py
-│  ├─ inspect_joints.py
-│  ├─ inspect_cameras.py
-│  │
-│  ├─ render_single_frame.py
-│  ├─ render_robot_front_camera.py
-│  ├─ render_follow_sequence.py
-│  ├─ make_follow_video.py
-│  ├─ read_frame_with_opencv.py
-│  │
-│  ├─ test_mujoco.py
-│  ├─ test_golf_caddie_scene.py
-│  ├─ test_golf_bag_attach.py
-│  ├─ test_base_drive_actuator.py
-│  ├─ test_direct_base_controller.py
-│  ├─ test_caddie_state_machine_unit.py
-│  ├─ test_color_detection.py
-│  └─ test_image_direction.py
+├── src/
+│   ├── behavior/
+│   ├── controller/
+│   ├── perception/
+│   ├── vision/
+│   └── main.py
 │
-├─ tests/
-│  ├─ test_tiago_load.py
-│  ├─ test_golf_course_load.py
-│  ├─ test_golf_bag_mounted.py
-│  ├─ test_follow_golfer.py
-│  ├─ test_follow_moving_golfer.py
-│  ├─ test_follow_with_obstacle_avoidance.py
-│  ├─ test_caddie_state_machine.py
-│  ├─ test_camera_targeting.py
-│  ├─ test_camera_based_heading.py
-│  ├─ test_visual_servoing.py
-│  └─ test_state_machine_with_vision.py
+├── tests/
+├── scripts/
+├── outputs/
 │
-├─ scripts/
-│  ├─ 01_build.sh
-│  ├─ 02_run_container.sh
-│  ├─ 03_test_mujoco.sh
-│  ├─ 04_render_scene.sh
-│  └─ 05_run_final_demo.sh
-│
-├─ outputs/                      # Git 제외
-│  ├─ camera/
-│  │  ├─ single_frame.png
-│  │  ├─ robot_front_camera.png
-│  │  ├─ follow_sequence/
-│  │  │  ├─ frame_0000.png
-│  │  │  ├─ frame_0100.png
-│  │  │  └─ ...
-│  │  └─ follow_sequence.mp4
-│  │
-│  ├─ camera_heading/
-│  │  ├─ heading_step_000.png
-│  │  ├─ heading_step_001.png
-│  │  ├─ ...
-│  │  └─ heading_step_019.png
-│  │
-│  ├─ visual_servoing/
-│  │  ├─ visual_servo_step_000.png
-│  │  ├─ visual_servo_step_001.png
-│  │  ├─ ...
-│  │  └─ visual_servo_step_178.png
-│  │
-│  ├─ state_machine_vision/
-│  │  ├─ vision_sm_0000.png
-│  │  ├─ vision_sm_0005.png
-│  │  ├─ ...
-│  │  └─ state_machine_vision_log.csv
-│  │
-│  ├─ final_demo/
-│  │  ├─ final_demo_0000.png
-│  │  ├─ final_demo_0005.png
-│  │  └─ ...
-│  │
-│  └─ vision/
-│     ├─ golf_ball_mask.png
-│     ├─ flag_mask.png
-│     └─ detection_result.png
-│
-├─ Dockerfile
-├─ docker-compose.yml
-├─ requirements.txt
-├─ .gitignore
-└─ README.md
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+├── README.md
+└── .gitignore
 ```
 
-## 최초 실행
+---
+
+# 🚀 Quick Start
 
 ```powershell
 git clone https://github.com/samuellee-dev/tiago_golf_caddie_project.git
+
 cd tiago_golf_caddie_project
 
 cd models
+
 git clone https://github.com/google-deepmind/mujoco_menagerie.git
+
 cd ..
 
 docker compose build
+
 docker compose up -d
+
 docker compose exec tiago-golf-caddie bash
 ```
+---
+
+# 📈 Development Journey
+
+This project was developed incrementally through functional milestones rather than implementing all features at once.
+
+Each stage was independently verified before proceeding to the next stage, ensuring stable integration throughout the development process.
+
+| Stage | Description |
+|--------|-------------|
+| **Stage 1** | Development Environment (Docker, MuJoCo, TIAGo Dual) |
+| **Stage 2** | Custom Golf Course & Golf Bag Integration |
+| **Stage 3** | Mobile Robot Motion Control |
+| **Stage 4** | Golfer Following & Obstacle Avoidance |
+| **Stage 5** | Camera Rendering & OpenCV Vision |
+| **Stage 6** | Heading Controller & Visual Servoing |
+| **Stage 7** | Vision-based State Machine Integration |
+| **Stage 8** | Project Refinement & Portfolio Documentation |
+
+The project was completed by continuously integrating, testing, and validating each subsystem before moving on to the next development stage.
 
 ---
 
-## 실행 테스트
+# 🎯 Implemented Features
 
-Docker 컨테이너 안(`/workspace`)에서 실행합니다.
-
-```bash
-# <기본 환경 및 모델 확인>
-# MuJoCo 기본 실행 확인
-python src/test_mujoco.py
-# 원본 TIAGo Dual 모델 로딩
-python tests/test_tiago_load.py
-# 골프장 환경 로딩
-python tests/test_golf_course_load.py
-# TIAGo + 골프장 통합 Scene 로딩
-python src/test_golf_caddie_scene.py
-# 골프백 부착 구조 확인
-python src/test_golf_bag_attach.py
-# 골프백 장착 안정성 확인
-python tests/test_golf_bag_mounted.py
-
-# <TIAGo 구조 및 이동 제어 확인>
-# Actuator 목록 확인
-python src/inspect_actuators.py
-# Joint와 free joint 구조 확인
-python src/inspect_joints.py
-# 바퀴 velocity actuator 이동 테스트
-python src/test_base_drive_actuator.py
-# DirectBaseController 목표 좌표 이동 테스트
-PYTHONPATH=src python src/test_direct_base_controller.py
-
-# <골퍼 추종 및 장애물 회피 확인>
-# golfer_target 기본 추종
-PYTHONPATH=src python tests/test_follow_golfer.py
-# 움직이는 golfer_target 추종
-PYTHONPATH=src python tests/test_follow_moving_golfer.py
-# 골퍼 추종 + 장애물 회피
-PYTHONPATH=src python tests/test_follow_with_obstacle_avoidance.py
-
-# <상태머신 확인>
-# 상태머신 단독 테스트
-PYTHONPATH=src python src/test_caddie_state_machine_unit.py
-# 상태머신 MuJoCo 통합 테스트
-PYTHONPATH=src python tests/test_caddie_state_machine.py
-
-# <카메라 및 렌더링 확인>
-# 카메라 목록 확인
-python src/inspect_cameras.py
-# 단일 이미지 렌더링
-python src/render_single_frame.py
-# Robot Front Camera 렌더링
-python src/render_robot_front_camera.py
-# 움직이는 골퍼 추종 시퀀스 이미지 생성
-PYTHONPATH=src python src/render_follow_sequence.py
-# 저장된 프레임으로 MP4 생성
-python src/make_follow_video.py
-# OpenCV로 렌더링 이미지 읽기
-python src/read_frame_with_opencv.py
-
-# <OpenCV 및 Camera Targeting 확인>
-# 색상 기반 골프공 후보 및 빨간 깃발 검출
-PYTHONPATH=src python src/test_color_detection.py
-# 이미지 내 LEFT / CENTER / RIGHT 방향 판단
-PYTHONPATH=src python src/test_image_direction.py
-# CameraTargeting 단독 테스트
-PYTHONPATH=src python tests/test_camera_targeting.py
-
-# <Heading 및 Visual Servoing 확인>
-# 카메라 기반 Heading 제어
-PYTHONPATH=src python tests/test_camera_based_heading.py
-# 카메라 기반 Visual Servoing
-PYTHONPATH=src python tests/test_visual_servoing.py
-# Visual Servoing + 상태머신 통합
-PYTHONPATH=src python tests/test_state_machine_with_vision.py
-
-# <최종 통합 데모>
-# 최종 통합 데모 실행
-python src/main.py
-
-```
-
-## 디버깅 체크리스트
-
-Docker Compose
-↓
-MuJoCo import
-↓
-원본 TIAGo 모델 로딩
-↓
-커스텀 통합 Scene 로딩
-↓
-골프백 장착 안정성
-↓
-카메라 목록
-↓
-단일 프레임 렌더링
-↓
-OpenCV 색상 검출
-↓
-CameraTargeting
-↓
-Camera Based Heading
-↓
-Visual Servoing
-↓
-Vision 통합 상태머신
-↓
-src/main.py 최종 데모
-
-## 진행 현황
-
-- [✅] 2단계: Docker 및 MuJoCo 개발 환경 구성
-- [✅] 3단계: TIAGo Dual 모델 다운로드 및 로딩
-- [✅] 4단계: 골프장 기본 환경 구성
-- [✅] 5단계: TIAGo Dual과 골프장 환경 통합
-- [✅] 6단계: 골프백 및 랙 모델 추가
-- [✅] 7단계: TIAGo 베이스에 골프백 장착
-- [✅] 8단계: TIAGo 베이스 이동 제어 구조 구현
-- [✅] 9단계: 골퍼(Target) 기본 추종 알고리즘 구현
-- [✅] 10단계: 장애물 감지 및 회피 구현
-- [✅] 11단계: 캐디 로봇 상태머신 구현 및 MuJoCo 통합
-- [✅] 12단계: 카메라 이미지 렌더링, 추종 시퀀스 저장, MP4 생성 및 OpenCV 이미지 읽기
-- [✅] 13단계: OpenCV 기반 골프공·깃발 색상 인식 및 이미지 방향 판단
-- [✅] 14단계: 전방 카메라 기반 방향 판단 및 Heading 제어 구현
-- [✅] 15단계: 카메라 기반 target 중앙 정렬, 전진 및 면적 기반 정지 Visual Servoing 구현
-- [✅] 16단계: 카메라 기반 Visual Servoing과 캐디 상태머신 통합
-- [✅] 17단계: 프로젝트 구조 정리, 테스트 분리, 실행 스크립트 및 최종 데모 구성
-- [✅] 18단계: 실무 디버깅 체크리스트 및 전체 기능 단계별 검증
-- [ ] 19단계: 미진행
-- [ ] 20단계: 시뮬레이션 포트폴리오 최종 정리
+- ✅ TIAGo Dual Simulation
+- ✅ Custom Golf Course
+- ✅ Golf Bag Mount
+- ✅ Golfer Following
+- ✅ Obstacle Avoidance
+- ✅ Camera Rendering
+- ✅ OpenCV Vision
+- ✅ Camera Targeting
+- ✅ Heading Controller
+- ✅ Visual Servoing
+- ✅ Vision State Machine
+- ✅ Autonomous Demo
 
 ---
 
-## GitHub 작업 순서
+# 🔮 Future Work
 
-작업 시작 전, Windows PowerShell에서 실행
+현재 프로젝트는 **MuJoCo 기반 시뮬레이션**까지 구현하였습니다.
 
-```powershell
-cd C:\Users\samuel\AI_Projects\tiago_golf_caddie_project
-git pull origin main
-docker compose up -d
-docker compose exec tiago-golf-caddie bash
+향후에는 다음과 같은 방향으로 확장할 수 있습니다.
+
+```text
+MuJoCo
+
+    │
+
+    ▼
+
+ROS2
+
+    │
+
+    ▼
+
+Gazebo
+
+    │
+
+    ▼
+
+Real TIAGo Robot
 ```
 
-작업 완료 후, exit > Windows PowerShell에서 실행
+Planned Extensions
 
-```powershell
-git status
-git add .
-git commit -m "단계 및 작업 내용"
-git push origin main
-```
+- ROS2 Integration
+- Navigation2
+- SLAM
+- YOLO Detection
+- Manipulator Motion Planning
+- Pick & Place
+- Real Camera
+- Real LiDAR
 
-## 모델 관리
+---
 
-- `models/mujoco_menagerie/`: 외부 원본 저장소이므로 Git에서 제외
-- `models/custom/golf_caddie_tiago/`: 프로젝트에서 사용하는 커스텀 모델이므로 Git에 포함
-- 원본 TIAGo Dual 모델은 직접 수정하지 않음
+# 📚 References
 
-## 참고
+- MuJoCo
+- MuJoCo Menagerie
+- PAL Robotics TIAGo
+- OpenCV
+- Docker
+- Python
 
-- MuJoCo Menagerie: https://github.com/google-deepmind/mujoco_menagerie
+---
+
+# 📄 License
+
+This project was developed for educational purposes and as a robotics portfolio.
+
+External assets and models follow the licenses of their respective projects.
+
+---
+
+# 📝 Project Summary
+
+This project demonstrates the implementation of an **Autonomous Golf Caddie Robot** using the **PAL Robotics TIAGo Dual** model in a **MuJoCo simulation environment**.
+
+The project integrates multiple robotics software components into a single autonomous system, including:
+
+- Mobile Robot Control
+- Computer Vision
+- Autonomous Navigation
+- Behavior Planning
+- State Machine
+- Visual Servoing
+
+The overall software architecture follows a **Perception → Behavior → Controller** pipeline, a common design pattern used in modern mobile robotics systems.
+
+Although this project focuses on simulation, the architecture has been designed to be extensible toward ROS2, Gazebo, and real robot deployment in future work.
+
+---
+
+<p align="center">
+
+⭐ If you found this project interesting, consider giving it a star on GitHub.
+
+</p>
